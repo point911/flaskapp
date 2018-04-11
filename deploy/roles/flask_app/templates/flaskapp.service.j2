@@ -1,0 +1,18 @@
+[Unit]
+Description=Simple flask web app
+
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=idle
+Restart=always
+RestartSec=3
+
+User=root
+Group=root
+
+ExecStart=/usr/bin/gunicorn --chdir /opt/flask_app --bind 0.0.0.0:80 --daemon wsgi:app
+
+[Install]
+WantedBy=multi-user.target

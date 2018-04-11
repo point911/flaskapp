@@ -3,9 +3,10 @@
   apt:
     name: '{{ item }}'
     state: present
+    update_cache: yes
   with_items:
     - git
-    - libmysqlclient-dev
+    - default-libmysqlclient-dev
     - python-dev
     - python-pip
     - gunicorn
@@ -46,5 +47,15 @@
     mode: 0644
 
 
-- name: start the application
-  command: gunicorn --chdir /opt/flask_app --bind 0.0.0.0:8000 --daemon wsgi:app
+- name: Copy flaskapp service file
+  template:
+    src: flaskapp.service.j2
+    dest: /lib/systemd/system/flaskapp.service
+
+
+- name: Start and enable flaskapp service
+  systemd:
+    name: flaskapp
+    enabled: yes
+    daemon_reload: yes
+    state: restarted
