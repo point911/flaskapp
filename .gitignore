@@ -11,3 +11,4 @@ gce-terraform-key.json
 *.Dockerfile
 .DS_Store
 *.log
+extra_vars.json

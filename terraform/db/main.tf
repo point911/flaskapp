@@ -1,3 +1,7 @@
+provider "google" {
+  project     = "${var.gce_project}"
+}
+
 resource "google_sql_database_instance" "ableto-db" {
   name = "ableto-db-i"
   database_version = "MYSQL_5_7"
