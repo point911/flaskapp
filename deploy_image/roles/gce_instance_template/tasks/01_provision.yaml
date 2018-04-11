@@ -1,0 +1,63 @@
+# Clear up before start
+- name: Terminate base instance if exists
+  gce:
+    instance_names: "{{ base_instance_name }}"
+    zone: "us-east1-b"
+    state: absent
+  tags: provision
+
+
+- name: Delete base image if exists
+  gce_img:
+    name: "{{ flask_app_image }}"
+    source: "{{ disk_name }}"
+    zone: us-east1-b
+    state: absent
+  tags: provision
+
+
+- name: Delete custom boot disk
+  gce_pd:
+    name: "{{ disk_name }}"
+    image: "{{ image_family }}"
+    size_gb: "10"
+    zone: "us-east1-b"
+    state: absent
+  tags: provision
+
+
+- name: Create custom boot disk
+  gce_pd:
+    name: "{{ disk_name }}"
+    image: "{{ image_family }}"
+    size_gb: "10"
+    zone: "us-east1-b"
+    state: present
+  tags: provision
+
+
+- name: Launch instances
+  gce:
+    instance_names: "{{ base_instance_name }}"
+    machine_type: "{{ machine_type }}"
+    image: "{{ image_family }}"
+    disk_auto_delete: false
+    disks:
+      - name: "{{ disk_name }}"
+        mode: READ_WRITE
+    zone: "us-east1-b"
+    state: present
+  register: gce
+  tags: provision
+
+
+- name: Wait for SSH to come up
+  wait_for: host={{ item.public_ip }} port=22 delay=10 timeout=60
+  loop: "{{ gce.instance_data }}"
+  tags: provision
+
+
+- name: Add host to groupname
+  add_host: hostname={{ item.public_ip }} groupname=new_instances
+  loop: "{{ gce.instance_data }}"
+  tags: provision

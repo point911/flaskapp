@@ -1,0 +1,6 @@
+disk_name: base-flask-disk
+base_instance_name: base-flask-template
+machine_type: n1-standard-1 # default
+image_family: debian-9
+flaskapp_instance_template: flaskapp-instance-template
+flask_app_image: flask-app-image

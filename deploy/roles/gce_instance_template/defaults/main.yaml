@@ -1,7 +1,0 @@
-base_instance_name: base-flask-template
-machine_type: n1-standard-1 # default
-image_family: debian-9
-service_account_email: terraform@nomadic-rush-571.iam.gserviceaccount.com
-credentials_file: /Users/point/.gce/gce-terraform-key.json
-project_id: nomadic-rush-571
-r_user: point

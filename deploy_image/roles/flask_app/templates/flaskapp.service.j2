@@ -12,7 +12,7 @@ RestartSec=3
 User=root
 Group=root
 
-ExecStart=/usr/bin/gunicorn --chdir /opt/flask_app --bind 0.0.0.0:80 --daemon wsgi:app
+ExecStart=/usr/bin/gunicorn --chdir /opt/flask_app --bind 0.0.0.0:8000 wsgi:app
 
 [Install]
 WantedBy=multi-user.target

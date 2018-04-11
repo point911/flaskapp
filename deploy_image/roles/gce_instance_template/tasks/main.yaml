@@ -1,0 +1,6 @@
+- include: 01_provision.yaml
+  when: provision is defined
+
+- include: 05_template.yaml
+  when: template is defined
+

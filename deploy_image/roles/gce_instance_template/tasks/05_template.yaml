@@ -1,0 +1,16 @@
+- name: Terminate base instance
+  gce:
+    instance_names: "{{ base_instance_name }}"
+    disk_auto_delete: false
+    zone: "us-east1-b"
+    state: absent
+  tags: template
+
+
+- name: Create image from disk
+  gce_img:
+    name: "{{ flask_app_image }}"
+    source: "{{ disk_name }}"
+    zone: us-east1-b
+    state: present
+  tags: template

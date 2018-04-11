@@ -10,6 +10,7 @@
     - python-dev
     - python-pip
     - gunicorn
+  tags: deploy
 
 
 - name: deploy application
@@ -17,7 +18,7 @@
     repo: '{{ flask_app_source }}'
     dest: /opt/flask_app
     version: '{{ flask_app_version }}'
-
+  tags: deploy
 
 - name: install all pip packages
   pip:
@@ -27,6 +28,7 @@
     - flask
     - flask-mysql
     - markupsafe
+  tags: deploy
 
 
 - name: create version file
@@ -36,6 +38,7 @@
     owner: root
     group: root
     mode: 0644
+  tags: deploy
 
 
 - name: configure the database connection
@@ -45,12 +48,14 @@
     owner: root
     group: root
     mode: 0644
+  tags: deploy
 
 
 - name: Copy flaskapp service file
   template:
     src: flaskapp.service.j2
     dest: /lib/systemd/system/flaskapp.service
+  tags: deploy
 
 
 - name: Start and enable flaskapp service
@@ -59,3 +64,4 @@
     enabled: yes
     daemon_reload: yes
     state: restarted
+  tags: deploy
