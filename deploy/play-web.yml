@@ -1,0 +1,22 @@
+---
+#- name: Create instance template for flask app
+#  hosts: localhost
+#  gather_facts: no
+#  connection: local
+#
+#  roles:
+#    - { name: gce_instance_template }
+
+
+
+- name: Deploy flask app
+  hosts:
+    - base-flask-template
+  connection: ssh
+  remote_user: point
+  gather_facts: yes
+  become: yes
+
+  roles:
+    - { name: flask_app }
+
