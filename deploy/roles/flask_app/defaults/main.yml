@@ -1,2 +1,4 @@
 ---
+flask_app_source: 'https://github.com/point911/flaskapp.git'
 flask_app_version: master
+
